@@ -3,11 +3,21 @@ const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 const dotenv = require("dotenv");
+const cores = require('cors')
 dotenv.config();
+
+//router import
+const clientRouter = require('./Controllers/ClientController')
+const ProjectRouter = require('./Controllers/ProjectController')
 
 //middleware usage
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
+app.use(cores());
+
+//router usage
+app.use('/client',clientRouter);
+app.use('/project',ProjectRouter);
 
 //========== router import ==========  //
 
@@ -18,11 +28,7 @@ const paymentRouter = require('./Controllers/FinancialController');
 app.use('/task',tasksRouter);
 app.use('/payment',paymentRouter);
 
-app.get("/", (req, res) => {
-  res.send("test");
-});
 //database connection
-
 mongoose
   .connect(process.env.DB_Cloud)
   .then((_connect) => {
