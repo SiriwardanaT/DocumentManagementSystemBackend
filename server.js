@@ -9,6 +9,14 @@ dotenv.config();
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
+//========== router import ==========  //
+
+const tasksRouter = require('./Controllers/Taskontroller');
+const paymentRouter = require('./Controllers/FinancialController');
+
+//========= router middlware usage ===== //
+app.use('/task',tasksRouter);
+app.use('/payment',paymentRouter);
 
 app.get("/", (req, res) => {
   res.send("test");
